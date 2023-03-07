@@ -9,7 +9,8 @@
 			"path": "pages/custom-demo/custom-demo",
 			"style": {
 				"navigationBarTitleText": "待办中心",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom" // 不显示uni-app的原生导航栏
 			}
 		}, {
 			"path": "pages/common-demo/common-demo",
