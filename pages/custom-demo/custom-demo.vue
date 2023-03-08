@@ -4,9 +4,13 @@
 		<z-paging ref="paging" v-model="dataList" @query="queryList">
 			<!-- 需要固定在顶部不滚动的view放在slot="top"的view中，如果需要跟着滚动，则不要设置slot="top" -->
 			<!-- 注意！此处的z-tabs为独立的组件，可替换为第三方的tabs，若需要使用z-tabs，请在插件市场搜索z-tabs并引入，否则会报插件找不到的错误 -->
-			<template #top>
+			<!-- <template #top>
 				<z-tabs :list="tabList" @change="tabChange" />
-			</template>
+			</template> -->
+			<uni-search-bar slot="top" clearButton="auto" cancelButton="none" 
+			@confirm="search" :focus="true" v-model="searchValue" @blur="blur" @focus="focus" @input="input"
+				@cancel="cancel" @clear="clear">
+			</uni-search-bar>
 			
 			<!-- 自定义下拉刷新view(如果use-custom-refresher为true且不设置下面的slot="refresher"，此时不用获取refresherStatus，会自动使用z-paging自带的下拉刷新view) -->
 
@@ -35,7 +39,7 @@
 		data() {
 			return {
 				//v-model绑定的这个变量不要在分页请求结束中自己赋值！！！
-				dataList: [],
+				dataList: [1,2,3],
 				tabList: ['测试1','测试2','测试3','测试4'],
 				tabIndex: 0
 			}
@@ -68,6 +72,9 @@
 			},
 			itemClick(item) {
 				console.log('点击了', item.title);
+			},
+			search(){
+				
 			}
 		}
 	}
