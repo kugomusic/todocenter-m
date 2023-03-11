@@ -66,6 +66,17 @@
         "domain" : "172.16.85.109",
         "router" : {
             "base" : ""
+        },
+        "devServer" : {
+            "proxy" : {
+                "/todoApi" : {
+                    "target" : "http://todo-uat.chinare.com.cn",
+                    "changeOrigin" : true,
+                    "pathRewrite" : {
+                        "^/todoApi" : ""
+                    }
+                }
+            }
         }
     },
     "vueVersion" : "2"

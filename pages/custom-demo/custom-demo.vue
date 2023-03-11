@@ -45,7 +45,7 @@
 				dataList: [],
 				// tabList: ['测试1','测试2','测试3','测试4'],
 				tabIndex: 0,
-				token : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJ3ZWNoYXQiLCJzdWIiOiJzZXJ2aWNlOndlY2hhdCIsImlzcyI6Imh0dHBzOi8vY2FzLXVhdC5jaGluYXJlLmNvbS5jbiIsInB0eXBlIjoic2VydmljZSIsImV4cCI6MTY3ODM2Nzk3NiwiaWF0IjoxNjc4MzY0Mzc2fQ.LAWUcAakt2rxI5Vjs3yWaOD4PAjPu96IbnehIAA4f2iG4fRZLsLNYkNnT3zCljWbYfTD6Th1PBJLOBnaPbSWQPJVosevghLJt6GMHuq5uMgiR3yKlC4yLHfzi2zYBV9HMVtznV-pDQlhp9jucS5D3JKJJTJA8w-IpfvRRaO_BcAgZR58YMutesBzYa3ObDSF_B6SldTVDa4tuqQ2VzpEI8oSSBqgX5CVzpE1Pu_IJJiHHrg_YXVi2ykl9onAvZQheBkCzPxUSR0Z8ftrJbozQbKckEyozROYu1sWywGXNvBccQo-xOYOxrsiTsuMaiYy2oA-t0b1NojX_bkDL3ZvDA",
+				token : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJ3ZWNoYXQiLCJzdWIiOiJzZXJ2aWNlOndlY2hhdCIsImlzcyI6Imh0dHBzOi8vY2FzLXVhdC5jaGluYXJlLmNvbS5jbiIsInB0eXBlIjoic2VydmljZSIsImV4cCI6MTY3ODQ0MDk4MywiaWF0IjoxNjc4NDM3MzgzfQ.kGOI3_6R5BfiohCjb5c-82SaI17Xbr89GNFqaltd-jc4DJ7b-djknoRZNEQ03wE9HTVo-Fli27NVFAtD4G-7LKc2yOshEI7k2HFJ9MSnilpply8UAFz7U6duS7yRow18grD5rikAdJQtPlQ5Fzu4yQXI6Hcj0ysZ-RJFdX-aSeWUu-L3-eRMuPued3e2sATvT5Zvwe2PJRd98NHdLqgxvFIYikkjhazrMuc0kWUkE_K_AO1R1fZw3g7pX_rF8d3yFTJ9BuyuRckFS35uVYWUmJO_sRF8PjsWIfr-cHeH8pKBKLfb-GhH7m16oSWanjW_NsBBF89APe1KqEqqM81aWg",
 				searchValue: [],
 			}
 		},
@@ -68,24 +68,21 @@
 				}
 				// TODO：（1）token的动态获取；（2）分页
 				var requestTask = uni.request({
-					url: 'https://todo-uat.chinare.com.cn/api/v1/todo/user/zhal',
+					// url: 'http://todo-uat.chinare.com.cn/api/v1/todo/user/zhal',
+					url: '/todoApi/api/v1/todo/user/zhal',
 					method:'GET',
 					header:{
 						'Authorization': that.token,
+						// 'content-type': 'application/x-www-form-urlencoded',
+						// 'Access-Control-Allow-Origin' : "*",
 					},
 					success: (res) => {
-						console.log(res.data);
 						globalDataList = res.data;
 						this.$refs.paging.complete(globalDataList);
+					},fail: () => {
+						this.$refs.paging.complete(false);
 					}
 				})
-				this.dataList = JSON.parse(JSON.stringify(globalDataList));
-				console.log("打印dataList：：：：：");
-				console.log(this.dataList);
-				console.log(globalDataList);
-			},
-			itemClick(item) {
-				console.log('点击了', item.title);
 			},
 			search(searchValue){
 				let searchList = JSON.parse(JSON.stringify(globalDataList));
@@ -96,21 +93,20 @@
 				for(let index in this.dataList) {
 					index = this.dataList.length - index -1;
 					let item = this.dataList[index];
-					console.log(item);
 					// TODO:目前只有ownerLoginName的搜索，待完善
 					if(item.ownerLoginName != searchValue) {
 						searchList.splice(index,1);
 					}
-					console.log(searchList);
 				}
 				this.dataList = searchList;
+				this.$refs.paging.complete(this.dataList);
 			},
 			clear() {
 				this.dataList = JSON.parse(JSON.stringify(globalDataList));
 				this.$refs.paging.complete(this.dataList);
 			},
 			goPage(h5url) {
-				console.log(h5url);
+				console.log('跳转到：',h5url);
 				window.location.href = h5url;
 			}
 		}
